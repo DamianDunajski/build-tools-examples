@@ -1,0 +1,31 @@
+@(form: Form[RegistrationData])
+
+@template("Join us today") {
+    @helper.form(action = routes.UserController.register()) {
+        <div class='form-group @if(form("email").hasErrors) {has-error has-feedback}'>
+            <label class='control-label' for='email'>Email address</label>
+            <input type="text" class='form-control' id='email' name='email' value='@form("email").value' placeholder='Enter email address' />
+            @if(form("email").hasErrors) {
+            <span class='glyphicon glyphicon-remove form-control-feedback'></span>
+            <span class='help-block'>@form("email").errors.map(fe => Messages(fe.message)).mkString(", ")</span>
+            }
+        </div>
+        <div class='form-group @if(form("password").hasErrors) {has-error has-feedback}'>
+            <label class='control-label' for='password'>Password</label>
+            <input type='password' class='form-control' id='password' name='password' value='@form("password").value' placeholder='Enter password' />
+            @if(form("password").hasErrors) {
+            <span class='glyphicon glyphicon-remove form-control-feedback'></span>
+            <span class='help-block'>@form("password").errors.map(fe => Messages(fe.message)).mkString(", ")</span>
+            }
+        </div>
+        <div class='checkbox @if(form("termsAccepted").hasErrors) {has-error has-feedback}'>
+            <label class='control-label'>
+                <input type='checkbox' name='termsAccepted' value='true' @if(form("termsAccepted").value) {checked}>Agree to terms and conditions</input>
+            </label>
+            @if(form("termsAccepted").hasErrors) {
+            <span class='help-block'>@form("termsAccepted").errors.map(fe => Messages(fe.message)).mkString(", ")</span>
+            }
+        </div>
+        <button type='submit' class='btn btn-default'>Submit</button>
+    }
+}

@@ -1,0 +1,25 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='UTF-8' />
+        <title>Project X: @title</title>
+        <link rel='stylesheet' href='@routes.Assets.at("stylesheets/bootstrap.css")' />
+        <script src='@routes.Assets.at("javascripts/jquery.js")'></script>
+        <script>
+            $(document).ready(function() {
+                $('div.form-group :input:enabled:visible:first').focus()
+                $('div.form-group.has-error :input:enabled:visible:first').focus()
+            })
+        </script>
+    </head>
+    <body>
+        <div class='container'>
+            <div class='page-header'>
+                <h1>@title</h1>
+            </div>
+            @content
+        </div>
+    </body>
+</html>
