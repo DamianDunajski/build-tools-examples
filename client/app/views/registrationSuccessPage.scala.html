@@ -1,0 +1,10 @@
+@import pl.geeksoft.px.model.RegistrationResult
+
+@(result: pl.geeksoft.px.model.RegistrationResult)
+
+@template("Thank you for joining us") {
+    <div class='well'>
+        Welcome <strong>@result.getEmail</strong>. Your account is now ready to use.<br /><br />
+        To get extra bonus use you individual voucher: <strong>@result.getVoucher</strong>
+    </div>
+}

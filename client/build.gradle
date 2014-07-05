@@ -1,0 +1,23 @@
+project.ext.playExec = './play'
+
+task playClean(type: Exec) {
+    commandLine playExec, 'clean'
+}
+
+task playCompile(type: Exec) {
+    commandLine playExec, 'compile'
+}
+
+task playDist(type: Exec) {
+    commandLine playExec, 'dist'
+}
+
+task playRun(type: Exec) {
+    commandLine playExec, 'run'
+}
+
+task clean(overwrite: true, dependsOn: playClean)
+
+task compile(overwrite: true, dependsOn: playCompile)
+
+task build(overwrite: true, dependsOn: playDist)

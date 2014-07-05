@@ -1,0 +1,11 @@
+subprojects {
+    group = 'pl.geeksoft.px'
+    version = '1.0-SNAPSHOT'
+
+    apply plugin: 'java'
+    apply plugin: 'scala'
+
+    repositories {
+        mavenCentral()
+    }
+}
