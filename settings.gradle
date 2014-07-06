@@ -1,1 +1,1 @@
-include 'model', 'client', 'service'
+include ':model', ':client', ':service'

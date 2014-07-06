@@ -1,23 +1,48 @@
-project.ext.playExec = './play'
+ext.playExec = './play'
 
-task playClean(type: Exec) {
-    commandLine playExec, 'clean'
+repositories {
+    maven {
+        url 'http://repo.typesafe.com/typesafe/releases'
+    }
 }
 
-task playCompile(type: Exec) {
-    commandLine playExec, 'compile'
+dependencies {
+    compile project(':model')
+    compile 'com.typesafe.play:play-ws_2.10:2.3.1'
 }
 
-task playDist(type: Exec) {
-    commandLine playExec, 'dist'
+task clean(overwrite: true) {
+    inputs.dir file('target')
+    outputs.dir file('target')
+    doLast {
+        exec { commandLine = [playExec, '--error', 'clean'] }
+    }
 }
 
-task playRun(type: Exec) {
-    commandLine playExec, 'run'
+task copyDependencies(type: Copy) {
+    from configurations.compile
+    into file('lib')
 }
 
-task clean(overwrite: true, dependsOn: playClean)
+task classes(overwrite: true, dependsOn: copyDependencies) {
+    inputs.dir file('app')
+    outputs.dir file('target')
+    doLast {
+        exec { commandLine = [playExec, '--error', 'compile'] }
+    }
+}
 
-task compile(overwrite: true, dependsOn: playCompile)
+task build(overwrite: true, dependsOn: copyDependencies) {
+    inputs.dir file('app')
+    outputs.dir file('target')
+    doLast {
+        exec { commandLine = [playExec, '--error', 'dist'] }
+    }
+}
 
-task build(overwrite: true, dependsOn: playDist)
+task runClient << {
+    def process = new ProcessBuilder([playExec, 'run']).directory(projectDir).start()
+    new BufferedReader(new InputStreamReader(process.inputStream)).eachLine {
+        println it
+    }
+}
